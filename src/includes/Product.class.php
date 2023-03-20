@@ -10,10 +10,10 @@ class Product
         $this->db = $db;
     }
 
-    public function getAll()
+    public function getAllByList($id)
     {
-        $sql = "SELECT * FROM product";
-        return $this->db->executeQuery($sql);
+        $sql = "SELECT * FROM product WHERE list_id=:list_id";
+        return $this->db->executeQuery($sql, ['list_id' => $id]);
     }
     public function getById($id)
     {
@@ -28,17 +28,7 @@ class Product
         $sql = "INSERT INTO product ($keys) VALUES ($values)";
         $this->db->executeQuery($sql);
     }
-    // public function update($id, $data)
-    // {
-    //     //  TODO: even more validation!!
-    //     $updateColumns = $data;
-    //     array_walk($updateColumns, function (&$value, $key) {
-    //         $value = "$key = '$value'";
-    //     });
-    //     $updateColumns = join(', ', array_values($updateColumns));
-    //     $sql = "UPDATE product SET $updateColumns WHERE id = $id";
-    //     $this->db->executeQuery($sql);
-    // }
+
     public function delete($id)
     {
         //  TODO: even more validation!!!

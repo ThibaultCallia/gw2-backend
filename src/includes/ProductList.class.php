@@ -22,16 +22,27 @@ class ProductList
     }
     public function add($data)
     {
-        $keys = array_keys($data);
-        $cols = implode(', ', $keys);
 
+        $keys = join(", ", array_keys($data));
+        $values =  '"' . join('", "', array_values($data)) . '"';
+        $sql = "INSERT INTO list ($keys) VALUES ($values)";
+        $this->db->executeQuery($sql);
+        // $keys = array_keys($data);
+        // $cols = implode(', ', $keys);
+        // $values = array_map(function ($key) {
+        //     return ':' . $key;
+        // }, $keys);
+        // $values = implode(', ', $values);
+        // $sql = "INSERT INTO list($cols) VALUES ($values)";
+        // return $this->db->executeQuery($sql, $data);
+    }
+    public function delete($id)
+    {
+        //  TODO: even more validation!!!
+        // $sql = "UPDATE product SET isChecked = 1 WHERE id = $id";
+        $sql = "DELETE FROM list WHERE id = $id";
 
-        $values = array_map(function ($key) {
-            return ':' . $key;
-        }, $keys);
-        $values = implode(', ', $values);
-        $sql = "INSERT INTO list($cols) VALUES ($values)";
-        return $this->db->executeQuery($sql, $data);
+        $this->db->executeQuery($sql);
     }
     // public function update($id, $data)
     // {

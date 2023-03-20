@@ -15,11 +15,18 @@ if (!in_array($endpoint, $allowedEndpoints)) {
 switch ($endpoint) {
     case 'products':
         // TODO: validation :O
-        $response->test = 'products';
+
         $db = new Db();
         $products = new Product($db);
-        $response->products = $products->getAll();
-        $response->status = 'success';
+        if (!isset($args['id']) || empty($args['id'])) {
+            $response->error = "failed";
+            $response->message = "need list id";
+        } else {
+            $response->products = $products->getAllByList($args['id']);
+            $response->status = 'success';
+        }
+
+
         break;
     case 'product':
         switch ($_SERVER['REQUEST_METHOD']) {
@@ -43,20 +50,9 @@ switch ($endpoint) {
                 $listName = $params['list_id'];
 
                 $response->status = 'success';
-                $response->message = $params['title'] . " has been added to " . $listName;
+                $response->message = $params['name'] . " has been added to " . $listName;
                 break;
-                // case 'PATCH':
-                //     // TODO: validation :)
-                //     $db = new Db();
-                //     $todos = new Todos($db);
 
-                //     // get PATCH data in JSON format
-                //     $params = jsonDecodeInput();
-                //     $todos->update($args['id'], $params);
-
-                //     $response->status = 'success';
-                //     $response->message = $params['title'] . " has been updated";
-                //     break;
             case 'DELETE':
                 // TODO: validation :)
                 $db = new Db();

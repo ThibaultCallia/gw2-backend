@@ -1,5 +1,7 @@
 <?php
 require_once "includes/ProductList.class.php";
+require_once "includes/helpers.inc.php";
+
 
 $args = $_REQUEST;
 $endpoint = $args['endpoint'];
@@ -18,7 +20,7 @@ switch ($endpoint) {
             return;
         }
         $response->status = 'success';
-        $response->test = 'lists';
+
         $db = new Db();
         $lists = new ProductList($db);
         $response->lists = $lists->getAll();
@@ -28,12 +30,26 @@ switch ($endpoint) {
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
                 $db = new Db();
-                $lists = new ProductList($db);
-                $created = $lists->add($_POST);
+                $list = new ProductList($db);
+
+                // get POST data in JSON format
+                $params = jsonDecodeInput();
+                $list->add($params);
+
+                // $created = $lists->add($_POST);
 
                 $response->status = 'success';
                 $response->message = 'List added';
 
+                break;
+            case 'DELETE':
+                // TODO: validation :)
+                $db = new Db();
+                $list = new ProductList($db);
+
+                $list->delete($args['id']);
+                $response->status = 'success';
+                $response->message = $args['id'] . " has been deleted";
                 break;
 
             default:
@@ -58,7 +74,7 @@ switch ($endpoint) {
                 }
 
                 $response->status = 'success';
-                $response->test = 'list';
+
                 $response->lists = $list;
                 break;
         }
