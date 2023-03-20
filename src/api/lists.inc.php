@@ -1,5 +1,5 @@
 <?php
-require_once "includes/TodoLists.class.php";
+require_once "includes/ProductList.class.php";
 
 $args = $_REQUEST;
 $endpoint = $args['endpoint'];
@@ -20,7 +20,7 @@ switch ($endpoint) {
         $response->status = 'success';
         $response->test = 'lists';
         $db = new Db();
-        $lists = new TodoLists($db);
+        $lists = new ProductList($db);
         $response->lists = $lists->getAll();
         break;
 
@@ -28,7 +28,7 @@ switch ($endpoint) {
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'POST':
                 $db = new Db();
-                $lists = new TodoLists($db);
+                $lists = new ProductList($db);
                 $created = $lists->add($_POST);
 
                 $response->status = 'success';
@@ -46,7 +46,7 @@ switch ($endpoint) {
                 }
 
                 $db = new Db();
-                $lists = new TodoLists($db);
+                $lists = new ProductList($db);
                 $list = $lists->getById($args['id']);
 
                 // Check if the list exists

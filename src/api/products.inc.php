@@ -1,10 +1,10 @@
 <?php
-require_once "includes/Todos.class.php";
+require_once "includes/Product.class.php";
 require_once "includes/helpers.inc.php";
 
 $args = $_REQUEST;
 $endpoint = $args['endpoint'];
-$allowedEndpoints = ["todos", "todo"];
+$allowedEndpoints = ["products", "product"];
 
 // TODO: documentation
 
@@ -13,34 +13,34 @@ if (!in_array($endpoint, $allowedEndpoints)) {
 }
 
 switch ($endpoint) {
-    case 'todos':
+    case 'products':
         // TODO: validation :O
-        $response->status = 'success';
-        $response->test = 'todos';
+        $response->test = 'products';
         $db = new Db();
-        $todos = new Todos($db);
-        $response->todos = $todos->getAll();
+        $products = new Product($db);
+        $response->products = $products->getAll();
+        $response->status = 'success';
         break;
-    case 'todo':
+    case 'product':
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
                 // TODO: validation ;)
                 $db = new Db();
-                $todos = new Todos($db);
-                $response->todos = $todos->getById($args['id']);
+                $product = new Product($db);
+                $response->product = $product->getById($args['id']);
                 $response->status = 'success';
                 break;
             case 'POST':
                 // TODO: validation :D
                 $db = new Db();
-                $todos = new Todos($db);
+                $product = new Product($db);
 
                 // get POST data in JSON format
                 $params = jsonDecodeInput();
-                $todos->add($params);
+                $product->add($params);
 
                 // TODO: add api call to get list name
-                $listName = $params['todo_lists_id'];
+                $listName = $params['list_id'];
 
                 $response->status = 'success';
                 $response->message = $params['title'] . " has been added to " . $listName;
@@ -60,9 +60,9 @@ switch ($endpoint) {
             case 'DELETE':
                 // TODO: validation :)
                 $db = new Db();
-                $todos = new Todos($db);
+                $product = new Product($db);
 
-                $todos->delete($args['id']);
+                $product->delete($args['id']);
                 $response->status = 'success';
                 $response->message = $args['id'] . " has been deleted";
                 break;

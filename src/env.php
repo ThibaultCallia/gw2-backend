@@ -2,10 +2,10 @@
 
 // development local
 
-const DB_HOST = 'ID396978_GW2TC.db.webhosting.be';
-const DB_NAME = 'ID396978_GW2TC';
-const DB_USER = 'ID396978_GW2TC';
-const DB_PASSWORD = 'Gahsoz-pefxa5-wuzsic';
+const DB_HOST = 'ID396978_gwtcew.db.webhosting.be';
+const DB_NAME = 'ID396978_gwtcew';
+const DB_USER = 'ID396978_gwtcew';
+const DB_PASSWORD = 'GW2Pass1234';
 
 // production
 
