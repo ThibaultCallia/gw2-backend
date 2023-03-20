@@ -45,18 +45,18 @@ switch ($endpoint) {
                 $response->status = 'success';
                 $response->message = $params['title'] . " has been added to " . $listName;
                 break;
-            case 'PATCH':
-                // TODO: validation :)
-                $db = new Db();
-                $todos = new Todos($db);
+                // case 'PATCH':
+                //     // TODO: validation :)
+                //     $db = new Db();
+                //     $todos = new Todos($db);
 
-                // get PATCH data in JSON format
-                $params = jsonDecodeInput();
-                $todos->update($args['id'], $params);
+                //     // get PATCH data in JSON format
+                //     $params = jsonDecodeInput();
+                //     $todos->update($args['id'], $params);
 
-                $response->status = 'success';
-                $response->message = $params['title'] . " has been updated";
-                break;
+                //     $response->status = 'success';
+                //     $response->message = $params['title'] . " has been updated";
+                //     break;
             case 'DELETE':
                 // TODO: validation :)
                 $db = new Db();

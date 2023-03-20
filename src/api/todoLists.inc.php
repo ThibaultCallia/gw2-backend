@@ -35,7 +35,7 @@ switch ($endpoint) {
                 $response->message = 'List added';
 
                 break;
-           
+
             default:
                 // Ensure that the 'id' parameter is set and is a positive integer
                 if (!isset($args['id']) || !ctype_digit($args['id']) || $args['id'] <= 0) {
