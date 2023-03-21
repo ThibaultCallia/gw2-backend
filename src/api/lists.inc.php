@@ -3,6 +3,11 @@ require_once "includes/ProductList.class.php";
 require_once "includes/helpers.inc.php";
 
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+
+
 $args = $_REQUEST;
 $endpoint = $args['endpoint'];
 $endpoints = ["lists", "list"];
@@ -35,12 +40,12 @@ switch ($endpoint) {
                 // get POST data in JSON format
                 $params = jsonDecodeInput();
                 $list->add($params);
-
+                var_dump($params);
                 // $created = $lists->add($_POST);
 
                 $response->status = 'success';
                 $response->message = 'List added';
-
+                http_response_code(201);
                 break;
             case 'DELETE':
                 // TODO: validation :)
