@@ -33,7 +33,7 @@ class Product
     {
         //  TODO: even more validation!!!
         // $sql = "UPDATE product SET isChecked = 1 WHERE id = $id";
-        $sql = "DELETE FROM product WHERE id = $id";
+        $sql = "DELETE FROM product WHERE id = " . $id;
 
         $this->db->executeQuery($sql);
     }
