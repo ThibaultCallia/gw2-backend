@@ -13,6 +13,7 @@ if (!in_array($endpoint, $allowedEndpoints)) {
 }
 
 switch ($endpoint) {
+
     case 'products':
         // TODO: validation :O
 
@@ -30,6 +31,10 @@ switch ($endpoint) {
         break;
     case 'product':
         switch ($_SERVER['REQUEST_METHOD']) {
+            case 'OPTIONS':
+                $response->status = 'success';
+                http_response_code(200);
+                break;
             case 'GET':
                 // TODO: validation ;)
                 $db = new Db();
