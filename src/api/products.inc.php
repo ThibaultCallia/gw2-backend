@@ -6,8 +6,6 @@ $args = $_REQUEST;
 $endpoint = $args['endpoint'];
 $allowedEndpoints = ["products", "product"];
 
-// TODO: documentation
-
 if (!in_array($endpoint, $allowedEndpoints)) {
     return;
 }
@@ -15,8 +13,6 @@ if (!in_array($endpoint, $allowedEndpoints)) {
 switch ($endpoint) {
 
     case 'products':
-        // TODO: validation :O
-
         $db = new Db();
         $products = new Product($db);
         if (!isset($args['id']) || empty($args['id'])) {
@@ -26,8 +22,6 @@ switch ($endpoint) {
             $response->products = $products->getAllByList($args['id']);
             $response->status = 'success';
         }
-
-
         break;
     case 'product':
         switch ($_SERVER['REQUEST_METHOD']) {
@@ -36,30 +30,32 @@ switch ($endpoint) {
                 http_response_code(200);
                 break;
             case 'GET':
-                // TODO: validation ;)
+
                 $db = new Db();
                 $product = new Product($db);
                 $response->product = $product->getById($args['id']);
                 $response->status = 'success';
                 break;
             case 'POST':
-                // TODO: validation :D
+
                 $db = new Db();
                 $product = new Product($db);
 
                 // get POST data in JSON format
                 $params = jsonDecodeInput();
+                // query validation
+                if (queryValidation($params)) {
+                    $response->status = 'error';
+                    $response->message = 'Invalid data';
+                    $response->errorType = queryValidation($params);
+                    return;
+                }
                 $product->add($params);
-
-                // TODO: add api call to get list name
-                $listName = $params['list_id'];
-
                 $response->status = 'success';
-                $response->message = $params['name'] . " has been added to " . $listName;
+                $response->message = 'product added';
                 break;
 
             case 'DELETE':
-                // TODO: validation :)
                 $db = new Db();
                 $product = new Product($db);
 
@@ -68,7 +64,9 @@ switch ($endpoint) {
                 $response->message = $args['id'] . " has been deleted";
                 break;
             default:
-                // TODO: validation :P
+                $response->status = 'failed';
+                $response->message = 'Invalid request method';
+                break;
         }
         break;
     default:

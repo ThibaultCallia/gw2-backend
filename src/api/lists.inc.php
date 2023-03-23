@@ -8,11 +8,11 @@ $endpoints = ["lists", "list"];
 if (!in_array($endpoint, $endpoints)) {
     return;
 }
-// TODO: documentation
+
 
 switch ($endpoint) {
     case 'lists':
-        // Ensure that the request method is GET
+
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             $response->status = 'error';
             $response->message = 'Invalid request method';
@@ -37,6 +37,7 @@ switch ($endpoint) {
 
                 // get POST data in JSON format
                 $params = jsonDecodeInput();
+                // query validation
                 if (queryValidation($params)) {
                     $response->status = 'error';
                     $response->message = 'Invalid data';
@@ -45,17 +46,12 @@ switch ($endpoint) {
                 }
 
                 $list->add($params);
-
-                // var_dump($params);
-                // $created = $lists->add($_POST);
-
-                //http_response_code(201);
                 $response->status = 'success';
                 $response->message = 'List added';
 
                 break;
             case 'DELETE':
-                // TODO: validation :)
+
                 $db = new Db();
                 $list = new ProductList($db);
 
@@ -65,29 +61,8 @@ switch ($endpoint) {
                 break;
 
             default:
-                // Ensure that the 'id' parameter is set and is a positive integer
-                if (!isset($args['id']) || !ctype_digit($args['id']) || $args['id'] <= 0) {
-                    $response->status = 'error';
-                    $response->message = 'Invalid ID parameter';
-                    http_response_code(404);
-                    return;
-                }
-
-                $db = new Db();
-                $lists = new ProductList($db);
-                $list = $lists->getById($args['id']);
-
-                // Check if the list exists
-                if (!$list) {
-                    $response->status = 'error';
-                    $response->message = 'List not found';
-                    http_response_code(404);
-                    return;
-                }
-
-                $response->status = 'success';
-
-                $response->lists = $list;
+                $response->status = 'failed';
+                $response->message = 'Invalid request method';
                 break;
         }
 

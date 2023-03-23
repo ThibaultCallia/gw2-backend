@@ -6,7 +6,7 @@ function jsonDecodeInput()
     return json_decode($params, true);
 }
 
-// Folowing function is used to validate the data sent to the API
+// Following function is used to validate the data sent to the API
 // foreach is open to be extended with more validation
 //  - name is required
 //  - name can't be longer than 75 characters
