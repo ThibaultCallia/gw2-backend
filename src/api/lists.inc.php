@@ -37,7 +37,15 @@ switch ($endpoint) {
 
                 // get POST data in JSON format
                 $params = jsonDecodeInput();
+                if (queryValidation($params)) {
+                    $response->status = 'error';
+                    $response->message = 'Invalid data';
+                    $response->errorType = queryValidation($params);
+                    return;
+                }
+
                 $list->add($params);
+
                 // var_dump($params);
                 // $created = $lists->add($_POST);
 

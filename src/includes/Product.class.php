@@ -10,6 +10,7 @@ class Product
         $this->db = $db;
     }
 
+    // getAll will always require a specific list. All products across all lists is not useful.
     public function getAllByList($id)
     {
         $sql = "SELECT * FROM product WHERE list_id=:list_id";
